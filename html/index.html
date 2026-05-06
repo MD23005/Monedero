@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monedero</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header id="header-container">
+        <h1>Bienvenido a tu Monedero</h1>
+        <button id="btn-continuar">Continuar sin sesión</button>
+    </header>
+
+    <section class="form-container">
+        <form action="" method="post">
+            <fieldset id="login-form">
+                <legend id="form-legend"> <i class="fa-solid fa-coins"></i> Monedero</legend>
+                <div class="form-item">
+                    <input placeholder="Correo electronico" type="email" name="email" id="email" required>
+                </div>
+                
+                <div class="form-item">
+                    <input placeholder="Contraseña" type="password" name="password" id="password" required>
+                    <i class="fa-solid fa-eye toggle-icon" id="toggle-pswrd"></i>
+                </div>
+
+                <div class="form-item">
+                    <button type="submit" id="btn-submit">Iniciar sesión</button>
+                </div>
+                
+            </fieldset>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Monedero. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

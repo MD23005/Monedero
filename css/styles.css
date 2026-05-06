@@ -1,0 +1,86 @@
+/*Estilos generales*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #f0ed63;
+}
+
+
+/* Estilos del header*/
+#header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: chocolate;
+    font-family: 'Lobster', sans-serif;
+}
+
+#btn-continuar{
+    padding: 10px 20px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#btn-continuar:hover{
+    background-color: #f0f0f0;
+}
+
+/* Estilos del formulario */
+.toggle-icon{
+    cursor: pointer;
+    color: chocolate;
+}
+
+.form-container{
+    display: grid;
+    place-items: center;
+    margin-top: 20px;
+}
+
+#login-form{
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    align-content: center;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.514);
+    border: 1px solid rgb(255, 255, 255);
+}
+
+#form-legend{
+    font-family: fantasy;
+    font-size: 24px;
+    text-align: center;
+    color: chocolate;
+}
+
+.form-item{
+    margin-top: 10px;
+}
+
+input{
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#btn-submit{
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: chocolate;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
