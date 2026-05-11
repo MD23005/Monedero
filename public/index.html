@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monedero</title>
+
+    <link rel="stylesheet" href="style.css"
+</head>
+<body>
+
+    <h1>Control de Gastos Personales</h1>
+
+    <! -- =================================-- >
+    <!-- FORMULARIO-->
+    <! -- =================================-->
+
+    <section class="formulario">
+
+        <h2>Registrar Gasto</h2>
+
+        <form id="formGasto">
+
+            <input type="number" id="id" placeholder="ID" required>
+            <input type="number" id="alimentacion" placeholder="Alimentación">
+            <input type="number" id="educacion" placeholder="Educación">
+            <input type="number" id="gMedicos" placeholder="Gastos Médicos">
+            <input type="number" id="gTransporte" placeholder="Transporte">
+            <input type="number" id="gArrendamiento" placeholder="Arrendamiento">
+            <input type="number" id="otrosGastos" placeholder="Otros Gastos">
+            <input type="date" id="fecha" required>
+
+            <button type="submit">
+                Guardar Gasto
+            </button>
+            
+        </form>
+
+    </section>
+// Suma de Registros y  (DASHBOARD)
+
+
+    <section class="dashboard">
+        <h2>dashboard</h2>
+
+        <p>Total de registros:
+            <span id="totalRegistros">0</span>
+        </p>
+
+        <p>Total de gastos:
+            $<span id="totalGastos">0</span>
+        </p>
+    </section>
+
+    <section class="ubicacion">
+
+        <h2>ubicacion</h2>
+
+        <p>Latitud:
+            <span id="latitud">Cargando...</span>
+        </p>
+
+        <p>Longitud:
+            <span id="longitud">Cargando...</span>
+        </p>
+    </section>
+
+    <! -- ========================== -->
+    <! -- TABLA -->
+    <! -- ========================== -->
+
+    <section>
+        <h2>Lista de Gastos</h2>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Alimentación</th>
+                    <th>Educación</th>
+                    <th>Médicos</th>
+                    <th>transporte</th>
+                    <th>Arrendamiento</th>
+                    <th>Otros</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody id="tablaGastos">
+
+            </tbody>
+        </table>
+
+    </section>
+
+    <script src="app.js"></script>
+    
+</body>
+</html>
