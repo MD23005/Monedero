@@ -5,6 +5,9 @@ const totalGastos = document.getElementById('totalGastos');
 const latitud = document.getElementById('latitud');
 const longitud = document.getElementById('longitud');
 let editando = false;
+let gastos = JSON.parse(
+    localStorage.getItem('gastos')
+) || [];
 const worker = new Worker('worker.js');
 
 // FUNCION PARA GUARDAR GASTOS EN LOCALHOST
@@ -35,12 +38,9 @@ function obtenerUbicacion() {
 }
 
 //MOSTRAR GASTOS
-
-async function cargarGastos() {
+function cargarGastos() {
     try {
-        const respuesta = await fetch('/gastos');
-
-        const gastos = await respuesta.json();
+        
         guardarLocal(gastos);
         tablaGastos.innerHTML = '';
         totalRegistros.textContent = gastos.length;
@@ -83,7 +83,7 @@ async function cargarGastos() {
 
 // EVENTO SUBMIT
 
-formulario.addEventListener('submit' , async (e) =>{
+formulario.addEventListener('submit' , (e) =>{
 
     e.preventDefault();
 
@@ -111,26 +111,24 @@ formulario.addEventListener('submit' , async (e) =>{
    
    try {
 
-    const url = editando
-        ? `/gastos/${gasto.id}`
-        : '/gastos';
-
-    const metodo = editando
-        ?  'PUT'
-        : 'POST';
     
-    const respuesta = await fetch(url, {
-        method: metodo,
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(gasto)
-    });    
-  
+    
+    if (editando) {
 
-    const datos = await respuesta.json();
+    const index = gastos.findIndex(
+        g => g.id === gasto.id
+    );
 
-    console.log(datos);
+    gastos[index] = gasto;
+
+    editando = false;
+
+} else {
+
+    gastos.push(gasto);
+
+}
+    
     alert('Gasto guardado correctamente');
 
     formulario.reset();
@@ -144,12 +142,13 @@ formulario.addEventListener('submit' , async (e) =>{
    
 });
 
-async function editarGasto(id) {
+function editarGasto(id) {
 
     try {
-        const respuesta = await fetch('/gastos');
-        const gastos = await respuesta.json();
-        const gasto = gastos.find(g => g.id === id);
+        const gasto = gastos.find(
+             g => g.id === id
+        );
+        
         document.getElementById('id').value = gasto.id;
         document.getElementById('alimentacion').value = gasto.alimentacion;
         document.getElementById('educacion').value = gasto.educacion;
@@ -168,12 +167,12 @@ async function editarGasto(id) {
     
 }
 
-async function eliminarGasto(id) {
+function eliminarGasto(id) {
 
     try {
-        await fetch(`/gastos/${id}`,{
-            method: 'DELETE'
-        });
+    gastos = gastos.filter(
+        g => g.id !== id
+    );
 
         cargarGastos();
     } catch (error){
