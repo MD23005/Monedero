@@ -1,0 +1,18 @@
+# Requisitos Técnicos Implementados
+
+Durante el desarrollo del proyecto se implementaron los siguientes requisitos solicitados en la materia:
+
+| Requisito | Estado | Implementación |
+|---|---|---|
+| CRUD completo | Completado | Se desarrolló un sistema para agregar, mostrar, editar y eliminar gastos personales. |
+| Funciones y eventos | Completado | Se utilizaron funciones y eventos de JavaScript para controlar formularios y botones del sistema. |
+| Validaciones | Completado | Se validaron campos obligatorios y datos numéricos antes de guardar información. |
+| Manipulación del DOM | Completado | La información de la tabla y el dashboard se actualiza dinámicamente desde JavaScript. |
+| Try/Catch | Completado | Se utilizó manejo de errores para controlar fallos en las peticiones y operaciones del sistema. |
+| Dashboard | Completado | Se implementó un dashboard que muestra métricas como total de registros y total de gastos. |
+| Web Worker | Completado | Se utilizó un Web Worker para realizar cálculos de gastos en segundo plano sin afectar la interfaz. |
+| LocalStorage | Completado | Los gastos se almacenan localmente en el navegador usando LocalStorage. |
+| SessionStorage | Completado | Se implementó SessionStorage para guardar temporalmente la última fecha ingresada. |
+| Fetch API | Completado | Se utilizó Fetch API para conectar el frontend con la API REST del sistema. |
+| JSON | Completado | La información enviada y recibida entre frontend y backend se trabaja en formato JSON. |
+| Geolocalización | Completado | El sistema obtiene la ubicación actual del usuario mediante la geolocalización del navegador. |
