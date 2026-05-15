@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Implementación de sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
     <header id="header-container">
@@ -17,11 +20,11 @@
     </header>
 
     <section class="form-container">
-        <form action="" method="post">
+        <form action="" method="post" id="login-monedero">
             <fieldset id="login-form">
                 <legend id="form-legend"> <i class="fa-solid fa-coins"></i> Monedero</legend>
                 <div class="form-item">
-                    <input placeholder="Correo electronico" type="email" name="email" id="email" required>
+                    <input placeholder="Nombre de usuario" type="text" name="username" id="username" required>
                 </div>
                 
                 <div class="form-item">
@@ -29,9 +32,7 @@
                     <i class="fa-solid fa-eye toggle-icon" id="toggle-pswrd"></i>
                 </div>
 
-                <div class="form-item">
                     <button type="submit" id="btn-submit">Iniciar sesión</button>
-                </div>
                 
             </fieldset>
         </form>
@@ -41,6 +42,12 @@
         <p>&copy; 2026 Monedero. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Script para funciones dentro de la página-->
     <script src="../js/script.js"></script>
+
+    <!-- Script para validar el login -->
+    <script src="../js/login_register.js"></script>
+
+    
 </body>
 </html>

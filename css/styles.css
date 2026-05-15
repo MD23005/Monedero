@@ -7,6 +7,7 @@
 
 body{
     background-color: #f0ed63;
+    height: 100vh;
 }
 
 
@@ -37,6 +38,9 @@ body{
 .toggle-icon{
     cursor: pointer;
     color: chocolate;
+    position:fixed;
+    margin-top: 10px;
+    margin-left: -25px;
 }
 
 .form-container{
@@ -45,13 +49,21 @@ body{
     margin-top: 20px;
 }
 
+
 #login-form{
     background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
     border-radius: 10px;
-    align-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.514);
     border: 1px solid rgb(255, 255, 255);
+    height: 50vh;
+    width: 300px;
+    margin-top: 25%;
+    gap: 15px;
 }
 
 #form-legend{
@@ -63,11 +75,13 @@ body{
 
 .form-item{
     margin-top: 10px;
+    width: 100%;
 }
 
 input{
     outline: none;
     padding: 10px;
+    width: 100%;
     border-radius: 5px;
     border: 1px solid #fff;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -83,4 +97,17 @@ input{
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+}
+
+/*Estilos del footer*/
+
+footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: chocolate;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Lobster', sans-serif;
 }
