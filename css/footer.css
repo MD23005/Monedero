@@ -1,0 +1,12 @@
+/*Estilos del footer*/
+
+footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: chocolate;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Lobster', sans-serif;
+}

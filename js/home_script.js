@@ -1,0 +1,53 @@
+//Cargar las sesiones activas
+const localUser = JSON.parse(localStorage.getItem('currentUser'));
+const guestUser = JSON.parse(sessionStorage.getItem('currentUser'));
+
+//Cargar el botón de logout
+const logoutBtn = document.getElementById('btn-logout');
+
+//Cargar el primer usuario que se encuentre
+let currentUser = guestUser || localUser;
+
+//contenedor del nombre en el encabezado
+const usernameDisplay = document.getElementById('username-display');
+
+if(!currentUser){
+    Swal.fire({
+        title: 'No posee una cuenta activa o de invitado',
+        text: "Por favor, inicie sesión o continúe sin sesión para acceder a su monedero.",
+        icon: 'warning',
+        confirmButtonText: 'Entendido'
+    }).then(() => {
+        window.location.href = '../html/index.html';
+    });
+}else{
+    // Mostrar el nombre del usuario en el encabezado
+    usernameDisplay.textContent = `${currentUser.username}`;
+
+    if(currentUser.isGuest){
+        usernameDisplay.textContent = `Invitado`;
+    }
+}
+
+//Evento para cerrar sesión
+logoutBtn.addEventListener('click', () => {
+    //Mensaje de advertencia al cerrar sesión
+    Swal.fire({
+        title: '¿Está seguro de que desea cerrar sesión?',
+        text: "Se eliminará su sesión actual y será redirigido a la página de inicio de sesión, si es invitado perderá sus datos al cerrar el navegador.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, cerrar sesión',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+             // Eliminar la sesión del usuario
+            localStorage.removeItem('currentUser');
+            sessionStorage.removeItem('currentUser');
+            // Redirigir al usuario a la página de inicio de sesión
+            window.location.href = '../html/index.html';
+        }
+    });
+});

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/home.css">
+
+    <!-- implementación de sweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header id="header-container">
+        <h1 id="hola">Bienvenido, <span id="username-display"></span></h1>
+        <button id="btn-logout">Cerrar sesión</button>
+    </header>
+
+    <section class="container">
+        <form method="post">
+            <fieldset  id="agregar-gasto">
+                <legend>Agregar gasto</legend>
+                <label for="name_gasto">Nombre del gasto</label>
+                <input type="text" id="name_gasto" name="name_gasto" required>
+            </fieldset>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Monedero. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="../js/home_script.js"></script>
+</body>
+</html>
