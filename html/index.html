@@ -6,50 +6,63 @@
     <title>Monedero</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- Implementación de sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
-<body>
-    <header id="header-container">
-        <h1>Bienvenido a tu Monedero</h1>
-        <button id="btn-continuar">Continuar sin sesión</button>
-    </header>
+<body class="login-page">
+<aside class="left-panel">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-coins"></i></div>
+      <span class="brand-name">Monedero</span>
+    </div>
+    <div class="hero-content">
+      <h2>Toma el control<br>de tus <span>finanzas</span><br>personales.</h2>
+      <p>Registra, analiza y organiza todos tus gastos en un solo lugar.</p>
+    </div>
+    <p class="left-footer">© 2026 Monedero · MD23005 · CM23137 · MM22090 · CG22079</p>
+  </aside>
 
-    <section class="form-container">
-        <form method="post" id="login-monedero">
-            <fieldset id="login-form">
-                <legend id="form-legend"> <i class="fa-solid fa-coins"></i> Monedero</legend>
-                <div class="form-item">
-                    <input placeholder="Nombre de usuario" type="text" name="username" id="username" required>
-                </div>
-                
-                <div class="form-item">
-                    <input placeholder="Contraseña" type="password" name="password" id="password" required>
-                    <i class="fa-solid fa-eye toggle-icon" id="toggle-pswrd"></i>
-                </div>
+  <main class="right-panel">
+    <div class="login-box">
+      <h1>Bienvenido</h1>
+      <p class="subtitle">Inicia sesión para gestionar tus gastos</p>
 
-                    <button type="submit" id="btn-submit">Iniciar sesión</button>
-                
-            </fieldset>
-        </form>
-    </section>
+      <form method="post" id="login-monedero">
+        <div class="form-group">
+          <label for="username" >Nombre de usuario</label>
+          <div class="input-wrap">
+            <i class="fa-regular fa-user"></i>
+            <input type="text" id="username" placeholder="Nombre de usuario" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" placeholder="••••••••" />
+            <i class="fa-regular fa-eye toggle-icon" id="toggle-pswrd"></i>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión
+        </button>
+      </form>
 
-    <footer>
-        <p>&copy; 2026 Monedero. Todos los derechos reservados.</p>
-    </footer>
+      <div class="divider"><span>o</span></div>
 
-    <!-- Script para funciones dentro de la página-->
-    <script src="../js/script.js"></script>
+      <button class="btn-secondary full" id="btn-continuar">
+        <i class="fa-regular fa-user"></i> Continuar sin sesión
+      </button>
+    </div>
+  </main>
 
     <!-- Script para validar el login -->
     <script src="../js/login_register.js"></script>
-
     
 </body>
+
 </html>

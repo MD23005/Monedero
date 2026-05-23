@@ -5,6 +5,9 @@ const guestUser = JSON.parse(sessionStorage.getItem('currentUser'));
 //Cargar el botón de logout
 const logoutBtn = document.getElementById('btn-logout');
 
+//Cargando el avatar
+const avatarCtn = document.getElementById('avatar');
+
 //Cargar el primer usuario que se encuentre
 let currentUser = guestUser || localUser;
 
@@ -23,9 +26,11 @@ if(!currentUser){
 }else{
     // Mostrar el nombre del usuario en el encabezado
     usernameDisplay.textContent = `${currentUser.username}`;
+    avatarCtn.textContent = currentUser.username.charAt(0).toUpperCase(); // Mostrar la primera letra del nombre como avatar
 
     if(currentUser.isGuest){
         usernameDisplay.textContent = `Invitado`;
+        avatarCtn.textContent = 'I';
     }
 }
 
