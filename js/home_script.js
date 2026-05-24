@@ -5,6 +5,12 @@ const guestUser = JSON.parse(sessionStorage.getItem('currentUser'));
 //Cargar el botón de logout
 const logoutBtn = document.getElementById('btn-logout');
 
+//boton para agregar gasto
+const addGastoBtn = document.getElementById('add-gasto');
+
+//Tabla de gastos
+const gastosTableBody = document.getElementById('t-gastos');
+
 //Cargando el avatar
 const avatarCtn = document.getElementById('avatar');
 
@@ -55,4 +61,130 @@ logoutBtn.addEventListener('click', () => {
             window.location.href = '../html/index.html';
         }
     });
+});
+
+// Cargar datos en la tabla al iniciar la aplicación
+window.addEventListener('DOMContentLoaded', () => {
+
+    const sessionUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+    
+    if (sessionUser) {
+        const currentUser = JSON.parse(sessionUser);
+
+
+        if (currentUser && currentUser.gastos) {
+            currentUser.gastos.forEach(gasto => {
+                const newRow = document.createElement('tr');
+
+                newRow.innerHTML = `
+                    <td>${gasto.id}</td>
+                    <td>${gasto.name}</td>
+                    <td>$${gasto.amount.toFixed(2)}</td>
+                    <td>${gasto.date}</td>
+                `;
+                
+                gastosTableBody.appendChild(newRow);
+            });
+        }
+    }
+});
+
+//Evento para agregar gasto
+addGastoBtn.addEventListener('click', () => {
+    Swal.fire({
+        title: 'Agregar nuevo gasto',
+        html:`
+        <form id="add-gasto-form">
+            <div class="form-group">
+                <label for="gasto-name">Nombre del gasto</label>
+                <input type="text" id="gasto-name" name="gasto-name" required>
+            </div>
+            <div class="form-group">
+                <label for="gasto-amount">Monto</label>
+                <input type="number" id="gasto-amount" name="gasto-amount" required>
+            </div>
+        </form>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Agregar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#28a745',
+
+        //Evento para validar los datos del formulario
+        preConfirm: () => {
+            const gastoName = document.getElementById('gasto-name').value.trim();
+            const gastoAmount = document.getElementById('gasto-amount').value.trim();
+
+            if(!gastoName || !gastoAmount || isNaN(gastoAmount) || parseFloat(gastoAmount) <= 0){
+                Swal.showValidationMessage('Por favor, ingrese un nombre y un monto válidos para el gasto.');
+                return false;
+            }
+
+            return { name: gastoName, amount: parseFloat(gastoAmount) };
+        }
+    }).then((result)=>{
+        if(result.isConfirmed){
+            const newGasto = result.value;
+
+            const gasto = {
+                id: Date.now(),
+                name: newGasto.name,
+                amount: newGasto.amount,
+                date: new Date().toISOString()
+            }
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${Date.now()}</td>
+                <td>${newGasto.name}</td>
+                <td>$${newGasto.amount.toFixed(2)}</td>
+                <td>${new Date().toLocaleDateString()}</td>
+            `;
+            gastosTableBody.appendChild(newRow);
+
+            // Agregando la data al perfil del usuario logeado
+            if (currentUser.isGuest) {
+                if (!currentUser.gastos) {
+                    currentUser.gastos = [];
+                }
+
+                // Añadir gasto al perfil del invitado
+                currentUser.gastos.push(gasto);
+                // Actualizar la sesión del usuario invitado
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+            } else {
+                currentUser.gastos = currentUser.gastos || [];
+                currentUser.gastos.push(gasto);
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                const listaUsuariosRaw = localStorage.getItem('users');
+                
+                if (listaUsuariosRaw) {
+                    const usuarios = JSON.parse(listaUsuariosRaw);
+                    
+                    // Buscamos al usuario real en la lista permanente usando un identificador único (como su email o id)
+                    const usuarioIndex = usuarios.findIndex(u => u.username === currentUser.username && u.password === currentUser.password);
+                    
+                    if (usuarioIndex !== -1) {
+                        // Sincronizamos los gastos en su perfil permanente
+                        usuarios[usuarioIndex].gastos = currentUser.gastos;
+                        
+                        // Guardamos la lista de usuarios actualizada de vuelta en el localStorage
+                        localStorage.setItem('users', JSON.stringify(usuarios));
+                    }
+                }
+            }
+
+
+            Swal.fire({
+                title: 'Gasto agregado exitosamente',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+    })
 });

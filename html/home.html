@@ -10,6 +10,7 @@
 
     <title>Home</title>
 
+    <link rel="stylesheet" href="../css/general-styles.css">
     <link rel="stylesheet" href="../css/home.css">
 
     <!-- implementación de sweetAlert -->
@@ -43,21 +44,33 @@
         </div>
     </nav>
 
-<!--
-    <section class="container">
-        <form method="post">
-            <fieldset  id="agregar-gasto">
-                <legend>Agregar gasto</legend>
-                <label for="name_gasto">Nombre del gasto:</label>
-                <input type="text" id="name_gasto" name="name_gasto" required>
 
-                <label for="cantidad_gasto">Ingrese el monto del gasto $:</label>
-                <input type="number" id="cantidad_gasto" name="cantidad_gasto" step="0.01" required>
-            </fieldset>
-        </form>
-    </section>
-    -->
+   <section class="main-content">
+    <h1 id="msg-welcome">Bienvenido a tu monedero</h1>
 
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Gasto</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody id="t-gastos">
+            <!-- Aquí se insertarán las filas de gastos dinámicamente -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Total Gastos</td>
+                <td id="total-gastos"></td>
+            </tr>
+    </table>
+
+    <button id="add-gasto" class="btn-primary">Agregar Gasto</button>
+   </section>
+
+   
     <script src="../js/home_script.js"></script>
 </body>
 </html>

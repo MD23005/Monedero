@@ -1,143 +1,4 @@
-:root {
-  --bg:          #0d0f14;
-  --surface:     #161a24;
-  --surface-2:   #1e2433;
-  --surface-3:   #242a3a;
-  --border:      rgba(255,255,255,0.07);
-  --border-h:    rgba(255,255,255,0.14);
-  --accent:      #c9a84c;
-  --accent-dim:  rgba(201,168,76,0.12);
-  --text:        #f0ede6;
-  --text-muted:  #8a8f9e;
-  --text-hint:   #555a68;
-  --danger:      #e05c5c;
-  --danger-dim:  rgba(224,92,92,0.12);
-  --success:     #4caf8a;
-  --success-dim: rgba(76,175,138,0.12);
-  --info:        #5b9cf6;
-  --info-dim:    rgba(91,156,246,0.12);
-  --font-display: 'DM Serif Display', serif;
-  --font-body:    'DM Sans', sans-serif;
-  --radius:    14px;
-  --radius-sm:  8px;
-  --sidebar-w: 240px;
-}
-
-/* ─── Reset ──────────────────────────────────────────── */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
-
-a { text-decoration: none; color: inherit; }
-
-/* ─── Componentes compartidos ──────────────────────────────── */
-
-/* Marca */
-.brand, .sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-icon {
-  width: 36px; height: 36px;
-  background: var(--accent);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  color: #0d0f14;
-  font-size: 16px;
-}
-
-.brand-name {
-  font-family: var(--font-display);
-  font-size: 22px;
-}
-
-/* Botones */
-.btn-primary {
-  padding: 11px 20px;
-  background: var(--accent);
-  color: #0d0f14;
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 600;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: inline-flex; align-items: center; gap: 7px;
-  transition: opacity 0.2s;
-}
-.btn-primary:hover { opacity: 0.88; }
-.btn-primary.full { width: 100%; justify-content: center; }
-
-.btn-secondary {
-  padding: 10px 16px;
-  background: transparent;
-  color: var(--text-muted);
-  font-family: var(--font-body);
-  font-size: 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: inline-flex; align-items: center; gap: 7px;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-.btn-secondary:hover { background: var(--surface); color: var(--text); border-color: var(--border-h); }
-.btn-secondary.full { width: 100%; justify-content: center; }
-
-/* Icono de botón */
-.icon-btn {
-  width: 30px; height: 30px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--text-hint);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-.icon-btn:hover { background: var(--surface-3); color: var(--text); border-color: var(--border-h); }
-.icon-btn.del:hover { color: var(--danger); border-color: var(--danger-dim); background: var(--danger-dim); }
-
-/* Formulario */
-.form-group { margin-bottom: 16px; }
-
-.form-group label {
-  display: block;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  margin-bottom: 6px;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 11px 14px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.form-group input::placeholder { color: var(--text-hint); }
-.form-group input:focus,
-.form-group select:focus { border-color: var(--accent); }
-.form-group select option { background: var(--surface-2); }
-
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
+@import url('../css/general-styles.css');
 /* ─── Dashboard ─────────────────────────────────── */
 
 /* Sidebar */
@@ -412,6 +273,14 @@ td { padding: 13px 24px; font-size: 14px; }
 .modal-close:hover { color: var(--text); }
 
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+
+/* contendor principal */
+.main-content{
+  margin-left: var(--sidebar-w);
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
 
 /* ─── Responsive ──────────────────────────────────────── */
 @media (max-width: 1024px) {
