@@ -14,6 +14,9 @@ const gastosTableBody = document.getElementById('t-gastos');
 //Cargando el avatar
 const avatarCtn = document.getElementById('avatar');
 
+//celda donde se muestra el total de gastos
+const totalGastosCell = document.getElementById('total-gastos');
+
 //Cargar el primer usuario que se encuentre
 let currentUser = guestUser || localUser;
 
@@ -45,7 +48,7 @@ logoutBtn.addEventListener('click', () => {
     //Mensaje de advertencia al cerrar sesión
     Swal.fire({
         title: '¿Está seguro de que desea cerrar sesión?',
-        text: "Se eliminará su sesión actual y será redirigido a la página de inicio de sesión, si es invitado perderá sus datos al cerrar el navegador.",
+        text: "Se eliminará su sesión actual y será redirigido a la página de inicio de sesión, si es invitado perderá sus datos al cerrar esta ventana.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -84,6 +87,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 `;
                 
                 gastosTableBody.appendChild(newRow);
+                //Cargar total de gastos actual
+                const totalGastos = currentUser.gastos.reduce((total, gasto) => total + gasto.amount, 0);
+                totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
             });
         }
     }
@@ -143,6 +149,10 @@ addGastoBtn.addEventListener('click', () => {
             `;
             gastosTableBody.appendChild(newRow);
 
+            //Cálculo del total de gastos
+            const totalGastos = currentUser.gastos ? currentUser.gastos.reduce((total, gasto) => total + gasto.amount, 0) + newGasto.amount : newGasto.amount;
+            totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+
             // Agregando la data al perfil del usuario logeado
             if (currentUser.isGuest) {
                 if (!currentUser.gastos) {
@@ -165,7 +175,7 @@ addGastoBtn.addEventListener('click', () => {
                 if (listaUsuariosRaw) {
                     const usuarios = JSON.parse(listaUsuariosRaw);
                     
-                    // Buscamos al usuario real en la lista permanente usando un identificador único (como su email o id)
+                    // Buscamos al usuario real en la lista permanente
                     const usuarioIndex = usuarios.findIndex(u => u.username === currentUser.username && u.password === currentUser.password);
                     
                     if (usuarioIndex !== -1) {
