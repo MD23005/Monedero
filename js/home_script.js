@@ -1,3 +1,5 @@
+import { iniciarExportaciones } from './export.js';
+
 //Cargar las sesiones activas
 const localUser = JSON.parse(localStorage.getItem('currentUser'));
 const guestUser = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -198,3 +200,6 @@ addGastoBtn.addEventListener('click', () => {
         }
     })
 });
+
+// Iniciar modulo de exportacion
+iniciarExportaciones(currentUser);
