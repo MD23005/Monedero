@@ -1,3 +1,4 @@
+import { iniciarExportaciones } from "./export.js";
 //Cargar las sesiones activas
 const localUser = JSON.parse(localStorage.getItem('currentUser'));
 const guestUser = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -66,34 +67,34 @@ logoutBtn.addEventListener('click', () => {
     });
 });
 
+const sessionUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
 // Cargar datos en la tabla al iniciar la aplicación
-window.addEventListener('DOMContentLoaded', () => {
+if (sessionUser) {
+    currentUser = JSON.parse(sessionUser); 
 
-    const sessionUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
-    
-    if (sessionUser) {
-        const currentUser = JSON.parse(sessionUser);
+    if (currentUser && currentUser.gastos) {
+        // 1. Renderizar los gastos existentes en la tabla
+        currentUser.gastos.forEach(gasto => {
+            const newRow = document.createElement('tr');
 
+            newRow.innerHTML = `
+                <td>${gasto.id}</td>
+                <td>${gasto.name}</td>
+                <td>$${gasto.amount.toFixed(2)}</td>
+                <td>${gasto.date}</td>
+            `;
+            
+            gastosTableBody.appendChild(newRow);
+        });
 
-        if (currentUser && currentUser.gastos) {
-            currentUser.gastos.forEach(gasto => {
-                const newRow = document.createElement('tr');
-
-                newRow.innerHTML = `
-                    <td>${gasto.id}</td>
-                    <td>${gasto.name}</td>
-                    <td>$${gasto.amount.toFixed(2)}</td>
-                    <td>${gasto.date}</td>
-                `;
-                
-                gastosTableBody.appendChild(newRow);
-                //Cargar total de gastos actual
-                const totalGastos = currentUser.gastos.reduce((total, gasto) => total + gasto.amount, 0);
-                totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
-            });
-        }
+        // 2. Calcular y cargar total de gastos actual (Afuera del forEach para que no se repita)
+        const totalGastos = currentUser.gastos.reduce((total, gasto) => total + gasto.amount, 0);
+        totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
     }
-});
+
+    iniciarExportaciones(currentUser);
+
+}
 
 //Evento para agregar gasto
 addGastoBtn.addEventListener('click', () => {

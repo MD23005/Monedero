@@ -19,6 +19,13 @@
     <!-- implementación de sweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.min.css" rel="stylesheet">
+
+     <!-- Libreria para generacion de Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+
+    <!-- Libreria para generacion de PDF con tablas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </head>
 
 <body>
@@ -68,12 +75,19 @@
                 <td colspan="2">Total Gastos</td>
                 <td id="total-gastos"></td>
             </tr>
+        </tfoot>
     </table>
 
-    <button id="add-gasto" class="btn-primary">Agregar Gasto</button>
+    <div class="table-actions">
+        <button id="add-gasto" class="btn-primary">Agregar Gasto</button>
+        <div class="export-actions">
+            <button id="export-excel" class="btn-secondary">Exportar a Excel</button>
+            <button id="export-pdf" class="btn-secondary">Exportar a PDF</button>
+        </div>
+    </div>
    </section>
 
    
-    <script src="../js/home_script.js"></script>
+    <script type="module" src="../js/home_script.js"></script>
 </body>
 </html>
