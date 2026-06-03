@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="icon" href="../img/logo_monedero.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../css/general-styles.css">
+    <link rel="stylesheet" href="../css/home.css">
+
+    <!-- implementación de sweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <!-- Libreria para generacion de Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+
+    <!-- Libreria para generacion de PDF con tablas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+<body>
+    <!-- Sidebar menu -->
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon"><i class="fa-solid fa-coins"></i></div>
+            <span class="brand-name">Monedero</span>
+        </div>
+        <div class="nav-section">
+            <p class="nav-label">Principal</p>
+            <a class="nav-item active" href="#"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="usr-profile.html" class="nav-item"><i class="fa-solid fa-user"></i> Perfil</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-chip">
+                <div id="avatar" class="avatar"></div>
+                <div class="user-info">
+                    <p id="username-display"></p>
+                    <p class="user-role"></p>
+                </div>
+                <a class="icon-btn" id="btn-logout" title="Cerrar sesión">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+    <section class="main-content">
+        <h1 id="msg-welcome">Bienvenido a tu monedero</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Gasto</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody id="t-gastos">
+                <!-- Aquí se insertarán las filas de gastos dinámicamente -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total Gastos</td>
+                    <td id="total-gastos"></td>
+                </tr>
+        </table>
+
+        <div class="table-actions">
+            <button id="add-gasto" class="btn-primary">Agregar Gasto</button>
+            <div class="export-actions">
+                <button id="export-excel" class="btn-secondary">Exportar a Excel</button>
+                <button id="export-pdf" class="btn-secondary">Exportar a PDF</button>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="../js/home_script.js"></script>
+</body>
+
+</html>
