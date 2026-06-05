@@ -84,7 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 newRow.innerHTML = `
                     <td>${gasto.id}</td>
                     <td>${gasto.name}</td>
-                    <td>$${gasto.amount.toFixed(2)}</td>
+                    <td>$${formatMoney(gasto.amount)}</td>
                     <td>${gasto.date}</td>
                     <td>
                         <button class="btn-edit" data-id="${gasto.id}"><i class="fa-solid fa-pen"></i></button>
@@ -96,13 +96,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 //Cargar total de gastos actual
                 const totalGastos = currentUser.gastos.reduce((total, gasto) => total + gasto.amount, 0);
-                totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+                totalGastosCell.textContent = `$${formatMoney(totalGastos)}`;
                 renderBudgetDisplay();
                 checkBudgetAlert(totalGastos);
             });
         }
     }
 });
+
+//Función para formato de cantidades
+function formatMoney(amount) {
+    return amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 //Función para revisar y mostrar alerta de presupuesto
 function checkBudgetAlert(totalGastos) {
@@ -121,10 +126,10 @@ function checkBudgetAlert(totalGastos) {
     if (percentage >= 100) {
         alertDiv.classList.remove('hidden', 'danger');
         alertDiv.classList.add('danger');
-        alertMsg.textContent = `¡Has superado tu presupuesto! Gastaste $${totalGastos.toFixed(2)} de $${budget.toFixed(2)}.`;
+        alertMsg.textContent = `¡Has superado tu presupuesto! Gastaste $${formatMoney(totalGastos)} de $${formatMoney(budget)}.`;
     } else if (percentage >= 80) {
         alertDiv.classList.remove('hidden', 'danger');
-        alertMsg.textContent = `Advertencia: llevas el ${percentage.toFixed(0)}% de tu presupuesto ($${totalGastos.toFixed(2)} de $${budget.toFixed(2)}).`;
+        alertMsg.textContent = `Advertencia: llevas el ${percentage.toFixed(0)}% de tu presupuesto ($${formatMoney(totalGastos)} de $${formatMoney(budget)}).`;
     } else {
         alertDiv.classList.add('hidden');
         alertDiv.classList.remove('danger');
@@ -135,7 +140,7 @@ function checkBudgetAlert(totalGastos) {
 function renderBudgetDisplay() {
     const budgetDisplay = document.getElementById('budget-display');
     budgetDisplay.textContent = currentUser.budget
-        ? `$${parseFloat(currentUser.budget).toFixed(2)}`
+        ? `$${formatMoney(parseFloat(currentUser.budget))}`
         : 'No definido';
 }
 
@@ -189,7 +194,7 @@ addGastoBtn.addEventListener('click', () => {
             newRow.innerHTML = `
                 <td>${Date.now()}</td>
                 <td>${newGasto.name}</td>
-                <td>$${newGasto.amount.toFixed(2)}</td>
+                <td>$${formatMoney(newGasto.amount)}</td>
                 <td>${new Date().toLocaleDateString()}</td>
                 <td>
                     <button class="btn-edit" data-id="${gasto.id}"><i class="fa-solid fa-pen"></i></button>
@@ -200,7 +205,7 @@ addGastoBtn.addEventListener('click', () => {
 
             //Cálculo del total de gastos
             const totalGastos = currentUser.gastos ? currentUser.gastos.reduce((total, gasto) => total + gasto.amount, 0) + newGasto.amount : newGasto.amount;
-            totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+            totalGastosCell.textContent = `$${formatMoney(totalGastos)}`;
             checkBudgetAlert(totalGastos);
 
             // Agregando la data al perfil del usuario logeado
@@ -299,7 +304,7 @@ document.getElementById('set-budget').addEventListener('click', () => {
     });
 });
 
-// Eliminar gasto
+// Eliminar y editar gasto
 gastosTableBody.addEventListener('click', (e) => {
     const btnDelete = e.target.closest('.btn-delete');
     const btnEdit = e.target.closest('.btn-edit');
@@ -321,7 +326,7 @@ gastosTableBody.addEventListener('click', (e) => {
                 btnDelete.closest('tr').remove();
 
                 const totalGastos = currentUser.gastos.reduce((t, g) => t + g.amount, 0);
-                totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+                totalGastosCell.textContent = `$${formatMoney(totalGastos)}`;
                 checkBudgetAlert(totalGastos);
 
                 guardarUsuario();
@@ -367,10 +372,10 @@ gastosTableBody.addEventListener('click', (e) => {
 
                 const row = btnEdit.closest('tr');
                 row.cells[1].textContent = gasto.name;
-                row.cells[2].textContent = `$${gasto.amount.toFixed(2)}`;
+                row.cells[2].textContent = `$${formatMoney(gasto.amount)}`;
 
                 const totalGastos = currentUser.gastos.reduce((t, g) => t + g.amount, 0);
-                totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+                totalGastosCell.textContent = `$${formatMoney(totalGastos)}`;
                 checkBudgetAlert(totalGastos);
 
                 guardarUsuario();

@@ -9,7 +9,7 @@ self.onmessage = function (e) {
         const filas = data.map(g => [
             String(g.id),
             g.name,
-            `$${g.amount.toFixed(2)}`,
+            `$${g.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
             g.date
         ]);
         self.postMessage({ type: 'excel', encabezado, filas });
@@ -19,7 +19,7 @@ self.onmessage = function (e) {
         const filas = data.map(g => [
             String(g.id).slice(-6),
             g.name,
-            `$${g.amount.toFixed(2)}`,
+            `$${g.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
             g.date
         ]);
         self.postMessage({ type: 'pdf', filas, budget: e.data.budget });

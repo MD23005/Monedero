@@ -61,8 +61,8 @@ export function iniciarExportaciones(currentUser) {
             if (currentUser.budget) {
                 XLSX.utils.sheet_add_aoa(hoja, [
                     [],
-                    ['', 'Total Gastado', `$${currentUser.gastos.reduce((t, g) => t + g.amount, 0).toFixed(2)}`, ''],
-                    ['', 'Presupuesto', `$${parseFloat(currentUser.budget).toFixed(2)}`, '']
+                    ['', 'Total Gastado', `$${currentUser.gastos.reduce((t, g) => t + g.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, ''],
+                    ['', 'Presupuesto', `$${parseFloat(currentUser.budget).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, '']
                 ], { origin: -1 });
             }
             XLSX.writeFile(libro, 'gastos.xlsx');
@@ -98,11 +98,10 @@ export function iniciarExportaciones(currentUser) {
             doc.setTextColor(160, 160, 160);
             doc.text(`Generado el: ${new Date().toLocaleDateString()}`, 14, 27);
 
-            // Agregar esta línea:
             if (e.data.budget) {
                 doc.setFontSize(10);
                 doc.setTextColor(80, 80, 80);
-                doc.text(`Presupuesto: $${parseFloat(e.data.budget).toFixed(2)}`, 14, 33);
+                doc.text(`Presupuesto: $${parseFloat(e.data.budget).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 14, 33);
             }
 
             // Tabla
