@@ -86,6 +86,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     <td>${gasto.name}</td>
                     <td>$${gasto.amount.toFixed(2)}</td>
                     <td>${gasto.date}</td>
+                    <td>
+                        <button class="btn-edit" data-id="${gasto.id}"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn-delete" data-id="${gasto.id}"><i class="fa-solid fa-trash"></i></button>
+                    </td>
                 `;
 
                 gastosTableBody.appendChild(newRow);
@@ -187,6 +191,10 @@ addGastoBtn.addEventListener('click', () => {
                 <td>${newGasto.name}</td>
                 <td>$${newGasto.amount.toFixed(2)}</td>
                 <td>${new Date().toLocaleDateString()}</td>
+                <td>
+                    <button class="btn-edit" data-id="${gasto.id}"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn-delete" data-id="${gasto.id}"><i class="fa-solid fa-trash"></i></button>
+                </td>
             `;
             gastosTableBody.appendChild(newRow);
 
@@ -290,6 +298,105 @@ document.getElementById('set-budget').addEventListener('click', () => {
         }
     });
 });
+
+// Eliminar gasto
+gastosTableBody.addEventListener('click', (e) => {
+    const btnDelete = e.target.closest('.btn-delete');
+    const btnEdit = e.target.closest('.btn-edit');
+
+    if (btnDelete) {
+        const id = parseInt(btnDelete.dataset.id);
+        Swal.fire({
+            title: '¿Eliminar gasto?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#aaa',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                currentUser.gastos = currentUser.gastos.filter(g => g.id !== id);
+                btnDelete.closest('tr').remove();
+
+                const totalGastos = currentUser.gastos.reduce((t, g) => t + g.amount, 0);
+                totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+                checkBudgetAlert(totalGastos);
+
+                guardarUsuario();
+                Swal.fire({ title: 'Gasto eliminado', icon: 'success', timer: 1500, showConfirmButton: false });
+            }
+        });
+    }
+
+    if (btnEdit) {
+        const id = parseInt(btnEdit.dataset.id);
+        const gasto = currentUser.gastos.find(g => g.id === id);
+        if (!gasto) return;
+
+        Swal.fire({
+            title: 'Editar gasto',
+            html: `
+                <div class="form-group">
+                    <label for="edit-name">Nombre del gasto</label>
+                    <input type="text" id="edit-name" value="${gasto.name}">
+                </div>
+                <div class="form-group">
+                    <label for="edit-amount">Monto</label>
+                    <input type="number" id="edit-amount" value="${gasto.amount}">
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#3085d6',
+            preConfirm: () => {
+                const name = document.getElementById('edit-name').value.trim();
+                const amount = document.getElementById('edit-amount').value.trim();
+                if (!name || !amount || isNaN(amount) || parseFloat(amount) <= 0) {
+                    Swal.showValidationMessage('Ingresa un nombre y monto válidos.');
+                    return false;
+                }
+                return { name, amount: parseFloat(amount) };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                gasto.name = result.value.name;
+                gasto.amount = result.value.amount;
+
+                const row = btnEdit.closest('tr');
+                row.cells[1].textContent = gasto.name;
+                row.cells[2].textContent = `$${gasto.amount.toFixed(2)}`;
+
+                const totalGastos = currentUser.gastos.reduce((t, g) => t + g.amount, 0);
+                totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+                checkBudgetAlert(totalGastos);
+
+                guardarUsuario();
+                Swal.fire({ title: 'Gasto actualizado', icon: 'success', timer: 1500, showConfirmButton: false });
+            }
+        });
+    }
+});
+
+// Guardar usuario en storage
+function guardarUsuario() {
+    if (currentUser.isGuest) {
+        sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+    } else {
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        const listaUsuariosRaw = localStorage.getItem('users');
+        if (listaUsuariosRaw) {
+            const usuarios = JSON.parse(listaUsuariosRaw);
+            const idx = usuarios.findIndex(u => u.username === currentUser.username && u.password === currentUser.password);
+            if (idx !== -1) {
+                usuarios[idx].gastos = currentUser.gastos;
+                localStorage.setItem('users', JSON.stringify(usuarios));
+            }
+        }
+    }
+}
 
 // Iniciar modulo de exportacion
 iniciarExportaciones(currentUser);
