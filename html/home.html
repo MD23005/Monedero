@@ -67,6 +67,7 @@
                     <th>Gasto</th>
                     <th>Monto</th>
                     <th>Fecha</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="t-gastos">
@@ -84,6 +85,18 @@
             <div class="export-actions">
                 <button id="export-excel" class="btn-secondary">Exportar a Excel</button>
                 <button id="export-pdf" class="btn-secondary">Exportar a PDF</button>
+            </div>
+        </div>
+
+         <!-- Elementos de presupuesto -->
+        <div class="budget-section">
+            <div class="budget-info">
+                <span>Presupuesto: <strong id="budget-display">No definido</strong></span>
+                <button id="set-budget" class="btn-secondary">Definir Presupuesto</button>
+            </div>
+            <div id="budget-alert" class="budget-alert hidden">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span id="budget-alert-msg"></span>
             </div>
         </div>
     </section>

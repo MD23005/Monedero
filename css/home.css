@@ -248,6 +248,64 @@ td { padding: 13px 24px; font-size: 14px; }
 
 .row-actions { display: flex; gap: 6px; }
 
+/*Estilos de botones eliminar y editar */
+.btn-edit, .btn-delete {
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.btn-edit {
+    background-color: #3085d6;
+    color: white;
+    margin-right: 4px;
+}
+
+.btn-delete {
+    background-color: #d33;
+    color: white;
+}
+
+/* Estilos de presupuesto */
+.budget-section {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.budget-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.budget-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background-color: #fff3cd;
+    border: 1px solid #ffc107;
+    border-left: 4px solid #ffc107;
+    color: #856404;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.budget-alert.danger {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+    border-left-color: #dc3545;
+    color: #842029;
+}
+
+.budget-alert.hidden {
+    display: none;
+}
+
 /* Modal */
 .modal-backdrop {
   position: fixed; inset: 0;
