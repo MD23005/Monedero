@@ -25,7 +25,7 @@ let currentUser = guestUser || localUser;
 //contenedor del nombre en el encabezado
 const usernameDisplay = document.getElementById('username-display');
 
-if(!currentUser){
+if (!currentUser) {
     Swal.fire({
         title: 'No posee una cuenta activa o de invitado',
         text: "Por favor, inicie sesión o continúe sin sesión para acceder a su monedero.",
@@ -34,12 +34,12 @@ if(!currentUser){
     }).then(() => {
         window.location.href = '../html/index.html';
     });
-}else{
+} else {
     // Mostrar el nombre del usuario en el encabezado
     usernameDisplay.textContent = `${currentUser.username}`;
     avatarCtn.textContent = currentUser.username.charAt(0).toUpperCase(); // Mostrar la primera letra del nombre como avatar
 
-    if(currentUser.isGuest){
+    if (currentUser.isGuest) {
         usernameDisplay.textContent = `Invitado`;
         avatarCtn.textContent = 'I';
     }
@@ -59,7 +59,7 @@ logoutBtn.addEventListener('click', () => {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-             // Eliminar la sesión del usuario
+            // Eliminar la sesión del usuario
             localStorage.removeItem('currentUser');
             sessionStorage.removeItem('currentUser');
             // Redirigir al usuario a la página de inicio de sesión
@@ -72,7 +72,7 @@ logoutBtn.addEventListener('click', () => {
 window.addEventListener('DOMContentLoaded', () => {
 
     const sessionUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
-    
+
     if (sessionUser) {
         const currentUser = JSON.parse(sessionUser);
 
@@ -87,15 +87,54 @@ window.addEventListener('DOMContentLoaded', () => {
                     <td>$${gasto.amount.toFixed(2)}</td>
                     <td>${gasto.date}</td>
                 `;
-                
+
                 gastosTableBody.appendChild(newRow);
+
                 //Cargar total de gastos actual
                 const totalGastos = currentUser.gastos.reduce((total, gasto) => total + gasto.amount, 0);
                 totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+                renderBudgetDisplay();
+                checkBudgetAlert(totalGastos);
             });
         }
     }
 });
+
+//Función para revisar y mostrar alerta de presupuesto
+function checkBudgetAlert(totalGastos) {
+    const budget = currentUser.budget;
+    const alertDiv = document.getElementById('budget-alert');
+    const alertMsg = document.getElementById('budget-alert-msg');
+
+    if (!budget || budget <= 0) {
+        alertDiv.classList.add('hidden');
+        alertDiv.classList.remove('danger');
+        return;
+    }
+
+    const percentage = (totalGastos / budget) * 100;
+
+    if (percentage >= 100) {
+        alertDiv.classList.remove('hidden', 'danger');
+        alertDiv.classList.add('danger');
+        alertMsg.textContent = `¡Has superado tu presupuesto! Gastaste $${totalGastos.toFixed(2)} de $${budget.toFixed(2)}.`;
+    } else if (percentage >= 80) {
+        alertDiv.classList.remove('hidden', 'danger');
+        alertMsg.textContent = `Advertencia: llevas el ${percentage.toFixed(0)}% de tu presupuesto ($${totalGastos.toFixed(2)} de $${budget.toFixed(2)}).`;
+    } else {
+        alertDiv.classList.add('hidden');
+        alertDiv.classList.remove('danger');
+    }
+}
+
+//mostrar presupuesto en pantalla
+function renderBudgetDisplay() {
+    const budgetDisplay = document.getElementById('budget-display');
+    budgetDisplay.textContent = currentUser.budget
+        ? `$${parseFloat(currentUser.budget).toFixed(2)}`
+        : 'No definido';
+}
+
 
 //Evento para agregar gasto
 addGastoBtn.addEventListener('click', () => {
@@ -124,15 +163,15 @@ addGastoBtn.addEventListener('click', () => {
             const gastoName = document.getElementById('gasto-name').value.trim();
             const gastoAmount = document.getElementById('gasto-amount').value.trim();
 
-            if(!gastoName || !gastoAmount || isNaN(gastoAmount) || parseFloat(gastoAmount) <= 0){
+            if (!gastoName || !gastoAmount || isNaN(gastoAmount) || parseFloat(gastoAmount) <= 0) {
                 Swal.showValidationMessage('Por favor, ingrese un nombre y un monto válidos para el gasto.');
                 return false;
             }
 
             return { name: gastoName, amount: parseFloat(gastoAmount) };
         }
-    }).then((result)=>{
-        if(result.isConfirmed){
+    }).then((result) => {
+        if (result.isConfirmed) {
             const newGasto = result.value;
 
             const gasto = {
@@ -154,6 +193,7 @@ addGastoBtn.addEventListener('click', () => {
             //Cálculo del total de gastos
             const totalGastos = currentUser.gastos ? currentUser.gastos.reduce((total, gasto) => total + gasto.amount, 0) + newGasto.amount : newGasto.amount;
             totalGastosCell.textContent = `$${totalGastos.toFixed(2)}`;
+            checkBudgetAlert(totalGastos);
 
             // Agregando la data al perfil del usuario logeado
             if (currentUser.isGuest) {
@@ -165,25 +205,25 @@ addGastoBtn.addEventListener('click', () => {
                 currentUser.gastos.push(gasto);
                 // Actualizar la sesión del usuario invitado
                 sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-                
+
             } else {
                 currentUser.gastos = currentUser.gastos || [];
                 currentUser.gastos.push(gasto);
-                
+
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
                 const listaUsuariosRaw = localStorage.getItem('users');
-                
+
                 if (listaUsuariosRaw) {
                     const usuarios = JSON.parse(listaUsuariosRaw);
-                    
+
                     // Buscamos al usuario real en la lista permanente
                     const usuarioIndex = usuarios.findIndex(u => u.username === currentUser.username && u.password === currentUser.password);
-                    
+
                     if (usuarioIndex !== -1) {
                         // Sincronizamos los gastos en su perfil permanente
                         usuarios[usuarioIndex].gastos = currentUser.gastos;
-                        
+
                         // Guardamos la lista de usuarios actualizada de vuelta en el localStorage
                         localStorage.setItem('users', JSON.stringify(usuarios));
                     }
@@ -201,5 +241,56 @@ addGastoBtn.addEventListener('click', () => {
     })
 });
 
+//Botón para definir presupuesto
+document.getElementById('set-budget').addEventListener('click', () => {
+    Swal.fire({
+        title: 'Definir presupuesto',
+        input: 'number',
+        inputLabel: 'Monto del presupuesto mensual',
+        inputValue: currentUser.budget || '',
+        inputAttributes: { min: 1, step: '0.01' },
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#28a745',
+        inputValidator: (value) => {
+            if (!value || parseFloat(value) <= 0)
+                return 'Ingresa un monto válido mayor a 0.';
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            currentUser.budget = parseFloat(result.value);
+
+            // Persistir según tipo de usuario
+            if (currentUser.isGuest) {
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            } else {
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                const listaUsuariosRaw = localStorage.getItem('users');
+                if (listaUsuariosRaw) {
+                    const usuarios = JSON.parse(listaUsuariosRaw);
+                    const idx = usuarios.findIndex(u => u.username === currentUser.username && u.password === currentUser.password);
+                    if (idx !== -1) {
+                        usuarios[idx].budget = currentUser.budget;
+                        localStorage.setItem('users', JSON.stringify(usuarios));
+                    }
+                }
+            }
+
+            renderBudgetDisplay();
+
+            // Recalcular alerta con el total actual
+            const totalGastos = currentUser.gastos
+                ? currentUser.gastos.reduce((t, g) => t + g.amount, 0)
+                : 0;
+            checkBudgetAlert(totalGastos);
+
+            Swal.fire({ title: 'Presupuesto guardado', icon: 'success', timer: 1500, showConfirmButton: false });
+        }
+    });
+});
+
 // Iniciar modulo de exportacion
 iniciarExportaciones(currentUser);
+

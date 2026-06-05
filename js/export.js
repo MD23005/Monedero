@@ -1,9 +1,10 @@
 // Maneja la exportacion de gastos a Excel y PDF
 
+//Excel
 export function iniciarExportaciones(currentUser) {
 
     const exportExcelBtn = document.getElementById('export-excel');
-    const exportPdfBtn   = document.getElementById('export-pdf');
+    const exportPdfBtn = document.getElementById('export-pdf');
 
     exportExcelBtn.addEventListener('click', () => {
         if (!currentUser.gastos || currentUser.gastos.length === 0) {
@@ -57,11 +58,20 @@ export function iniciarExportaciones(currentUser) {
 
             const libro = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(libro, hoja, 'Gastos');
+            if (currentUser.budget) {
+                XLSX.utils.sheet_add_aoa(hoja, [
+                    [],
+                    ['', 'Total Gastado', `$${currentUser.gastos.reduce((t, g) => t + g.amount, 0).toFixed(2)}`, ''],
+                    ['', 'Presupuesto', `$${parseFloat(currentUser.budget).toFixed(2)}`, '']
+                ], { origin: -1 });
+            }
             XLSX.writeFile(libro, 'gastos.xlsx');
             worker.terminate();
         };
     });
 
+
+    //PDF
     exportPdfBtn.addEventListener('click', () => {
         if (!currentUser.gastos || currentUser.gastos.length === 0) {
             Swal.fire('Sin datos', 'No hay gastos para exportar.', 'info');
@@ -69,7 +79,7 @@ export function iniciarExportaciones(currentUser) {
         }
 
         const worker = new Worker('../js/export-worker.js');
-        worker.postMessage({ type: 'pdf', data: currentUser.gastos });
+        worker.postMessage({ type: 'pdf', data: currentUser.gastos, budget: currentUser.budget || null });
 
         worker.onmessage = function (e) {
             const { filas } = e.data;
@@ -88,9 +98,16 @@ export function iniciarExportaciones(currentUser) {
             doc.setTextColor(160, 160, 160);
             doc.text(`Generado el: ${new Date().toLocaleDateString()}`, 14, 27);
 
+            // Agregar esta línea:
+            if (e.data.budget) {
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                doc.text(`Presupuesto: $${parseFloat(e.data.budget).toFixed(2)}`, 14, 33);
+            }
+
             // Tabla
             doc.autoTable({
-                startY: 34,
+                startY: 40,
                 head: [['ID', 'Gasto', 'Monto', 'Fecha']],
                 body: filas,
                 styles: {

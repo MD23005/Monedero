@@ -22,6 +22,6 @@ self.onmessage = function (e) {
             `$${g.amount.toFixed(2)}`,
             g.date
         ]);
-        self.postMessage({ type: 'pdf', filas });
+        self.postMessage({ type: 'pdf', filas, budget: e.data.budget });
     }
 };
