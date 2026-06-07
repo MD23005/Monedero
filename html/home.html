@@ -58,6 +58,7 @@
 
 
     <section class="main-content">
+        <button id="btn_aiService"><i class="fa-solid fa-star"></i>Análisis de IA</button>
         <h1 id="msg-welcome">Bienvenido a tu monedero</h1>
 
         <table>
@@ -99,9 +100,18 @@
                 <span id="budget-alert-msg"></span>
             </div>
         </div>
+
+        <!--Ai response section-->
+        <div class="AiResponse-container aihidden">
+            <div class="ai-header"><h1>Análisis generado por IA</h1></div>
+            <div class="AiResponse-text">
+                <div name="aiResponse" id="aiResponse"></div>
+            </div>
+        </div>
     </section>
 
     <script type="module" src="../js/home_script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>
 
 </html>

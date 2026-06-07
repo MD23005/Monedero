@@ -34,7 +34,6 @@ Desarrollar una aplicación web que permita gestionar los gastos personales medi
 * HTML5
 * CSS3
 * JavaScript
-* Node.js (Express) (opcional para pruebas de API)
 * Fetch API
 * LocalStorage
 * SessionStorage
@@ -83,8 +82,6 @@ El proyecto está organizado en componentes frontend que interactúan con el alm
 
 4. En caso de utilizar el servidor:
 
-* Instalar dependencias con npm install
-* Ejecutar con node server.js
 
 ---
 

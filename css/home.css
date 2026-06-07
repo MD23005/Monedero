@@ -346,6 +346,86 @@ td { padding: 13px 24px; font-size: 14px; }
   padding: 28px 32px;
 }
 
+.swal2-container{
+  backdrop-filter: blur(10px);
+}
+
+.swal2-popup{
+  background-color: var(--bg);
+  border: 1px dotted var(--accent);
+}
+
+.swal2-title{
+  color: #fff;
+}
+
+#btn_aiService{
+  padding: 10px;
+  background-color: var(--bg);
+  border: 1px solid #856404;
+  border-radius: 10px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  color: #856404;
+}
+
+#btn_aiService:hover{
+  background-color: #ffffff;
+}
+
+.aihidden{
+  display: none;
+}
+
+/* Contenedor principal de la respuesta de la IA */
+#aiResponse {
+    border: 1px solid #dcdcdc;
+    background-color: #fbfbfb;
+    padding: 20px;
+    border-radius: 8px;
+    min-height: 150px;
+    max-height: 500px;
+    overflow-y: auto;
+    
+    /* Interlineado general para mejorar la lectura */
+    line-height: 1.6; 
+    color: #2c3e50;
+    font-family: sans-serif;
+}
+
+/* Espaciado para los párrafos de texto */
+#aiResponse p {
+    margin-bottom: 15px;
+}
+
+/* Formato para las Listas (aquí recuperamos los "tabs" y viñetas) */
+#aiResponse ul, #aiResponse ol {
+    margin-left: 25px;    /* Esto le da la sangría (tab) hacia la derecha */
+    margin-bottom: 15px;  /* Espacio abajo de la lista */
+    padding-left: 5px;
+}
+
+/* Espaciado entre cada elemento de la lista */
+#aiResponse li {
+    margin-bottom: 8px;   /* Interlineado interno entre viñetas */
+    list-style-type: disc; /* Asegura que se muestren los puntitos de la lista */
+}
+
+/* Si la IA te devuelve títulos (como ## Consejos) */
+#aiResponse h1, #aiResponse h2, #aiResponse h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #1a252f;
+    font-weight: bold;
+}
+
+/* Si la IA te devuelve texto destacado con **negritas** */
+#aiResponse strong {
+    color: #111;
+    font-weight: 600;
+}
 
 /* ─── Responsive ──────────────────────────────────────── */
 @media (max-width: 1024px) {
