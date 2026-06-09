@@ -10,8 +10,9 @@ exports.handler = async function (event, context) {
     if (!apiKey) {
       try {
         
-        const config = require('./config.js');
-        apiKey = config.CONFIG.GOOGLE_API; 
+        //const config = require('./config.js');
+        //apiKey = config.CONFIG.GOOGLE_API; 
+        const apiKey = process.env.GEMINI_API_KEY;
       } catch (error) {
         return {
           statusCode: 500,
