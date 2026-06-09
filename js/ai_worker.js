@@ -12,7 +12,7 @@ self.onmessage = async function(event) {
     `;
 
     try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        const url = `/.netlify/functions/llamar-gemini`;
 
         const response = await fetch(url, {
             method: 'POST',

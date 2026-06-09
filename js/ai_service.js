@@ -1,7 +1,7 @@
 //Importar del archivo config la variable donde está la API key de Google
-import { CONFIG } from "./config.js";
+//import { CONFIG } from "./config.js";
 //Parámetros para usar la API
-const apiKey = CONFIG.GOOGLE_API; //Modificar por API en el archivo config.js, si no existe debe crearlo
+//const apiKey = CONFIG.GOOGLE_API; //Modificar por API en el archivo config.js, si no existe debe crearlo
 
 export function consultarIA(currentUser){
     //Componentes del DOM
