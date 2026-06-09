@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
+
 /*------ Estilos del contenedor principal ------*/
 .main-content{
     margin-left: 240px;
@@ -27,7 +29,7 @@
     right: 20px;
 }
 
-.btn-container #btn-logout{
+.btn-container .btn-logout{
     padding: 20px;
     border-radius: 10px;
     color: white;
@@ -37,11 +39,18 @@
     transition: 0.5s;
 }
 
-.btn-container #btn-logout:hover{
+.btn-container .btn-logout:hover{
     background-color: hsla(0, 100%, 50%, 0.705);
 }
 
 /*------ Estilos del contenedor del nombre ------*/
 .txt-container{
     margin-left: 45px;
+}
+
+/*------ Estilos del nombre del usuario ------*/
+#username-display-body{
+    font-size: 40px;
+    margin-top: 20px;
+    font-family: "Tangerine", cursive;
 }

@@ -1,4 +1,5 @@
 import { iniciarExportaciones } from './export.js';
+import { consultarIA } from './ai_service.js';
 
 //Cargar las sesiones activas
 const localUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -22,7 +23,7 @@ const totalGastosCell = document.getElementById('total-gastos');
 //Cargar el primer usuario que se encuentre
 let currentUser = guestUser || localUser;
 
-//contenedor del nombre en el encabezado
+//contenedor del nombre en el sidebar
 const usernameDisplay = document.getElementById('username-display');
 
 if (!currentUser) {
@@ -187,7 +188,7 @@ addGastoBtn.addEventListener('click', () => {
                 id: Date.now(),
                 name: newGasto.name,
                 amount: newGasto.amount,
-                date: new Date().toISOString()
+                date: new Date().toISOString().split('T')[0]
             }
 
             const newRow = document.createElement('tr');
@@ -373,6 +374,7 @@ gastosTableBody.addEventListener('click', (e) => {
                 const row = btnEdit.closest('tr');
                 row.cells[1].textContent = gasto.name;
                 row.cells[2].textContent = `$${formatMoney(gasto.amount)}`;
+                row.cells[3].textContent = new Date().toISOString().split('T')[0];
 
                 const totalGastos = currentUser.gastos.reduce((t, g) => t + g.amount, 0);
                 totalGastosCell.textContent = `$${formatMoney(totalGastos)}`;
@@ -405,4 +407,4 @@ function guardarUsuario() {
 
 // Iniciar modulo de exportacion
 iniciarExportaciones(currentUser);
-
+consultarIA(currentUser);
