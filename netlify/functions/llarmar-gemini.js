@@ -10,7 +10,7 @@ exports.handler = async function (event, context) {
     if (!apiKey) {
       try {
         
-        const config = require('../../js/config.js');
+        const config = require('./config.js');
         apiKey = config.CONFIG.GOOGLE_API; 
       } catch (error) {
         return {
