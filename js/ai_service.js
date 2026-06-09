@@ -38,7 +38,6 @@ export function consultarIA(currentUser){
         aiWorker.postMessage({
             gastos: currentUser.gastos,
             presupuesto: currentUser.budget,
-            apiKey: apiKey
         });
 
         aiWorker.onmessage = function(e) {

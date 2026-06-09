@@ -1,5 +1,5 @@
 self.onmessage = async function(event) {
-    const { gastos, presupuesto, apiKey } = event.data;
+    const { gastos, presupuesto } = event.data;
 
     const prompt = `
         Actúa como un experto en finanzas personales. 
