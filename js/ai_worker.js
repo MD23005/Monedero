@@ -38,6 +38,7 @@ self.onmessage = async function(event) {
             // Enviamos el estado exitoso
             self.postMessage({ status: 'success', data: analisisTexto });
         } else {
+            console.error("Respuesta inesperada de Gemini:", data);
             // Manejo de respuestas alternativas (ej. si la IA bloquea el contenido por políticas)
             if (data.promptFeedback?.blockReason) {
                 throw new Error(`La solicitud fue bloqueada por: ${data.promptFeedback.blockReason}`);
