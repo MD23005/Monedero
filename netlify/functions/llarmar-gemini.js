@@ -42,16 +42,10 @@ exports.handler = async function (event, context) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     
     // 3. Petición segura a Gemini
-    const respuesta = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{ text: prompt }]
-        }]
-      })
+    const respuesta = await llamarGeminiConRetry(url, {
+      contents: [{ parts: [{ text: prompt }] }]
     });
-    
+        
     // 4. Leer el texto plano primero para evitar que una respuesta rota de Google rompa Node.js
     const textoPlano = await respuesta.text();
     let datos;
@@ -103,3 +97,23 @@ exports.handler = async function (event, context) {
     };
   }
 };
+
+async function llamarGeminiConRetry(url, body, intentos = 3) {
+  let respuesta;
+  for (let i = 0; i < intentos; i++) {
+    respuesta = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (respuesta.status !== 503) {
+      return respuesta;
+    }
+
+    if (i < intentos - 1) {
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+    }
+  }
+  return respuesta;
+}
