@@ -12,7 +12,7 @@ self.onmessage = async function(event) {
     `;
 
     try {
-        const url = `/netlify/functions/llarmar-gemini`;
+        const url = `/.netlify/functions/llarmar-gemini`;
 
         const response = await fetch(url, {
             method: 'POST',
