@@ -4,19 +4,6 @@ exports.handler = async function (event, context) {
 
     let apiKey = process.env.GEMINI_API_KEY; 
 
-    if (!apiKey) {
-      try {
-        const config = require('./config.js');
-        apiKey = config.CONFIG.GOOGLE_API; 
-      } catch (error) {
-        return {
-          statusCode: 500,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ error: "No se encontró la API Key" }),
-        };
-      }
-    }
-
     // Usamos la URL oficial para generación de contenido
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     
