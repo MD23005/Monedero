@@ -15,7 +15,6 @@ exports.handler = async function (event, context) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ 
-          role: "user", // Requerido/Recomendado en v1beta para 2.5
           parts: [{ text: prompt }] 
         }]
       })
