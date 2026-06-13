@@ -9,6 +9,18 @@ let usuarioPais = '';
 
 document.addEventListener('DOMContentLoaded', async ()=>{
     try {
+        Swal.fire({
+            title: 'Puede activar su ubicación para un mejor rastreo de su actividad',
+            icon: 'info',
+            showConfirmButton:true,
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading(); // Activa el spinner
+            },
+            timer: 8000
+        })
+
         const { latitud, longitud, pais } = await obtenerUbicacion();
 
         usuarioLatitud = latitud;
