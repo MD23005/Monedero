@@ -1,6 +1,7 @@
 import { iniciarExportaciones } from './export.js';
 import { consultarIA } from './ai_service.js';
 
+
 //Cargar las sesiones activas
 const localUser = JSON.parse(localStorage.getItem('currentUser'));
 const guestUser = JSON.parse(sessionStorage.getItem('currentUser'));

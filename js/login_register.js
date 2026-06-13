@@ -1,6 +1,33 @@
+import { obtenerUbicacion } from './geolocation_service.js';
+
 //obtener los controles del formulario
 const form = document.getElementById('login-monedero');
 const sessionLessbtn = document.getElementById('btn-continuar');
+let usuarioLatitud = null;
+let usuarioLongitud = null;
+let usuarioPais = '';
+
+document.addEventListener('DOMContentLoaded', async ()=>{
+    try {
+        const { latitud, longitud, pais } = await obtenerUbicacion();
+
+        usuarioLatitud = latitud;
+        usuarioLongitud = longitud;
+        usuarioPais = pais;
+
+        Swal.close();
+
+        console.log(`Usuario localizado: latitud = ${latitud}, longitud = ${longitud}, pais = ${pais}`)
+    } catch (error) {
+        console.log(error)
+        Swal.fire({
+            title: 'Ubicación no disponible',
+            text: 'No pudimos obtener tu ubicación, pero puedes seguir navegando.',
+            icon: 'warning',
+            confirmButtonText: 'Entendido'
+        })
+    }
+})
 
 form.addEventListener('submit', function(event) {
     event.preventDefault(); // Evitar el envío del formulario
@@ -35,7 +62,12 @@ form.addEventListener('submit', function(event) {
 
             Swal.fire({
                 title: 'Usuario nuevo registrado',
-                text: 'Bienvenido a Monedero',
+                html: `<h2>Bienvenido a Monedero</h2>
+                <br>
+                <b>Su ubicación actual es</b>: <br> 
+                <b><i>Latitud: </i></b>${usuarioLatitud} <br>
+                <b><i>Longitud: </i></b>${usuarioLongitud} <br>
+                <b><i>País: </i></b>${usuarioPais} <br>`,
                 icon: 'success',
                 confirmButtonText: 'Continuar'
             }).then(() => {
@@ -49,7 +81,12 @@ form.addEventListener('submit', function(event) {
 
                 Swal.fire({
                     title: 'Inicio de sesión exitoso',
-                    text: `Bienvenido de nuevo, ${username}`,
+                    html: `<h2>Bienvenido de nuevo, ${username}</h2>
+                    <br>
+                    <b>Su ubicación actual es</b>: <br> 
+                    <b><i>Latitud: </i></b>${usuarioLatitud} <br>
+                    <b><i>Longitud: </i></b>${usuarioLongitud} <br>
+                    <b><i>País: </i></b>${usuarioPais} <br>`,
                     icon: 'success',
                     confirmButtonText: 'Continuar'
                 }).then(() => {
