@@ -8,36 +8,61 @@ let usuarioLongitud = null;
 let usuarioPais = '';
 
 document.addEventListener('DOMContentLoaded', async ()=>{
-    try {
-        Swal.fire({
-            title: 'Puede activar su ubicación para un mejor rastreo de su actividad',
-            icon: 'info',
-            showConfirmButton:true,
-            confirmButtonText: 'Aceptar',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading(); // Activa el spinner
-            },
-            timer: 8000
-        })
+   try {
+        // 1. Consultar el estado del permiso usando la API de Permisos
+        const estadoPermiso = await navigator.permissions.query({ name: 'geolocation' });
+        
+        console.log(`Estado del permiso de GPS: ${estadoPermiso.state}`);
 
+        // 2. Evaluar el estado para decidir si mostramos el SweetAlert de carga
+        if (estadoPermiso.state === 'prompt') {
+            // El usuario NO ha decidido aún, se le va a preguntar. ¡Mostramos alerta de carga!
+            Swal.fire({
+                title: 'Detectando tu ubicación',
+                html: 'Por favor, acepta el permiso de geolocalización en la ventana de tu navegador...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+        } 
+        else if (estadoPermiso.state === 'denied') {
+            // El usuario ya lo bloqueó previamente. Le avisamos de inmediato y frenamos el flujo.
+            Swal.fire({
+                title: 'Ubicación Bloqueada',
+                text: 'Has bloqueado el acceso a la ubicación. Actívalo en el candado de la barra de direcciones para continuar.',
+                icon: 'warning',
+                timer: 3000,
+                timerProgressBar: true,
+                toast: true,
+                position: 'bottom-start',
+            });
+            return; // Detiene la ejecución del código
+        }
+    
+        // 3. Ejecutar tu función modular para traer las coordenadas y el país
         const { latitud, longitud, pais } = await obtenerUbicacion();
 
         usuarioLatitud = latitud;
         usuarioLongitud = longitud;
         usuarioPais = pais;
 
+        // 4. Si había un SweetAlert de carga abierto (estado prompt), lo cerramos
         Swal.close();
 
-        console.log(`Usuario localizado: latitud = ${latitud}, longitud = ${longitud}, pais = ${pais}`)
-    } catch (error) {
-        console.log(error)
+        // 5. Lanzamos tu SweetAlert final con el temporizador automático
         Swal.fire({
-            title: 'Ubicación no disponible',
-            text: 'No pudimos obtener tu ubicación, pero puedes seguir navegando.',
-            icon: 'warning',
-            confirmButtonText: 'Entendido'
-        })
+            title: `¡Bienvenido!`,
+            html: `Entorno configurado correctamente para: <b>${pais}</b>.`,
+            icon: 'success',
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            position: 'bottom-start',
+            toast:true
+        });
+
+    } catch (error) {
+        Swal.close();
+        console.error("Error en el flujo de geolocalización:", error);
     }
 })
 
