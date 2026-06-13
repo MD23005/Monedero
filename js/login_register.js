@@ -1,6 +1,70 @@
+import { obtenerUbicacion } from './geolocation_service.js';
+
 //obtener los controles del formulario
 const form = document.getElementById('login-monedero');
 const sessionLessbtn = document.getElementById('btn-continuar');
+let usuarioLatitud = null;
+let usuarioLongitud = null;
+let usuarioPais = '';
+
+document.addEventListener('DOMContentLoaded', async ()=>{
+   try {
+        // 1. Consultar el estado del permiso usando la API de Permisos
+        const estadoPermiso = await navigator.permissions.query({ name: 'geolocation' });
+        
+        console.log(`Estado del permiso de GPS: ${estadoPermiso.state}`);
+
+        // 2. Evaluar el estado para decidir si mostramos el SweetAlert de carga
+        if (estadoPermiso.state === 'prompt') {
+            // El usuario NO ha decidido aún, se le va a preguntar. ¡Mostramos alerta de carga!
+            Swal.fire({
+                title: 'Detectando tu ubicación',
+                html: 'Por favor, acepta el permiso de geolocalización en la ventana de tu navegador...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+        } 
+        else if (estadoPermiso.state === 'denied') {
+            // El usuario ya lo bloqueó previamente. Le avisamos de inmediato y frenamos el flujo.
+            Swal.fire({
+                title: 'Ubicación Bloqueada',
+                text: 'Has bloqueado el acceso a la ubicación. Actívalo en el candado de la barra de direcciones para continuar.',
+                icon: 'warning',
+                timer: 3000,
+                timerProgressBar: true,
+                toast: true,
+                position: 'bottom-start',
+            });
+            return; // Detiene la ejecución del código
+        }
+    
+        // 3. Ejecutar tu función modular para traer las coordenadas y el país
+        const { latitud, longitud, pais } = await obtenerUbicacion();
+
+        usuarioLatitud = latitud;
+        usuarioLongitud = longitud;
+        usuarioPais = pais;
+
+        // 4. Si había un SweetAlert de carga abierto (estado prompt), lo cerramos
+        Swal.close();
+
+        // 5. Lanzamos tu SweetAlert final con el temporizador automático
+        Swal.fire({
+            title: `¡Bienvenido!`,
+            html: `Entorno configurado correctamente para: <b>${pais}</b>.`,
+            icon: 'success',
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            position: 'bottom-start',
+            toast:true
+        });
+
+    } catch (error) {
+        Swal.close();
+        console.error("Error en el flujo de geolocalización:", error);
+    }
+})
 
 form.addEventListener('submit', function(event) {
     event.preventDefault(); // Evitar el envío del formulario
@@ -35,7 +99,12 @@ form.addEventListener('submit', function(event) {
 
             Swal.fire({
                 title: 'Usuario nuevo registrado',
-                text: 'Bienvenido a Monedero',
+                html: `<h2>Bienvenido a Monedero</h2>
+                <br>
+                <b>Su ubicación actual es</b>: <br> 
+                <b><i>Latitud: </i></b>${usuarioLatitud} <br>
+                <b><i>Longitud: </i></b>${usuarioLongitud} <br>
+                <b><i>País: </i></b>${usuarioPais} <br>`,
                 icon: 'success',
                 confirmButtonText: 'Continuar'
             }).then(() => {
@@ -49,7 +118,12 @@ form.addEventListener('submit', function(event) {
 
                 Swal.fire({
                     title: 'Inicio de sesión exitoso',
-                    text: `Bienvenido de nuevo, ${username}`,
+                    html: `<h2>Bienvenido de nuevo, ${username}</h2>
+                    <br>
+                    <b>Su ubicación actual es</b>: <br> 
+                    <b><i>Latitud: </i></b>${usuarioLatitud} <br>
+                    <b><i>Longitud: </i></b>${usuarioLongitud} <br>
+                    <b><i>País: </i></b>${usuarioPais} <br>`,
                     icon: 'success',
                     confirmButtonText: 'Continuar'
                 }).then(() => {

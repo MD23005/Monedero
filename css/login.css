@@ -113,4 +113,3 @@
 }
 .divider span { font-size: 13px; color: var(--text-hint); white-space: nowrap; }
 .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
