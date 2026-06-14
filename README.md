@@ -78,9 +78,16 @@ El proyecto está organizado en componentes frontend que interactúan con el alm
 
 2. Abrir el proyecto en un editor de código (por ejemplo, VS Code).
 
-3. Ejecutar el archivo principal (index.html) en el navegador.
+3. Obtener API key de Google Ai studio.
+   
+4. Crear archivo config.js en la carpeta js/
 
-4. En caso de utilizar el servidor:
+5. Editar el archivo config.js con la siguiente estructura:
+export const CONFIG = {
+   GOOGLE_API: "Ingrese su API key aquí"
+}
+
+6. Usar live server en VS code para levantar un servidor local.
 
 
 ---
@@ -90,7 +97,6 @@ El proyecto está organizado en componentes frontend que interactúan con el alm
 * Ronald Osvaldo Manzano Deleon Carnet: MD23005
 * Jose Manuel Carballo Mendez   Carnet: CM23137
 * Marcos Shafitk Murga          Carnet: mm22090
-* Gloria Elena Castellanos Garcia Carnet:CG22079
 
 ---
 
