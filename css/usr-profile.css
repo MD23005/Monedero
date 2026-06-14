@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
+
+/*------ Estilos del contenedor principal ------*/
+.main-content{
+    margin-left: 240px;
+    height: 100vh;
+    align-items: center;
+    align-content: center;
+}
+
+.usr-card{
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(27, 27, 51, 0.671);
+    padding: 20px;
+    border-radius: 10px;
+    width: 98.5%;
+    border: 1px dotted #ffffff80;
+}
+
+.fa-circle-user{
+    font-size: 120px;
+}
+
+/*------ Estilos del botón de logout ------*/
+.btn-container{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.btn-container .btn-logout{
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    background-color: red;
+    cursor: pointer;
+    border: none;
+    transition: 0.5s;
+}
+
+.btn-container .btn-logout:hover{
+    background-color: hsla(0, 100%, 50%, 0.705);
+}
+
+/*------ Estilos del contenedor del nombre ------*/
+.txt-container{
+    margin-left: 45px;
+}
+
+/*------ Estilos del nombre del usuario ------*/
+#username-display-body{
+    font-size: 40px;
+    margin-top: 20px;
+    font-family: "Tangerine", cursive;
+}
